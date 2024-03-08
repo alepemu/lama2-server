@@ -15,12 +15,13 @@ async function queryAI(input: string) {
     messages: [
       {
         role: "system",
-        content: `Answer to the next query in as few words as possible: ${input}`,
+        content: `Answer to the next query shortly (25 words max): ${input}`,
       },
     ],
     model: "gpt-3.5-turbo",
   });
   console.log(completion.choices[0]);
+  return completion.choices[0].message.content;
 }
 
 // App
@@ -31,14 +32,10 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (_, res: Response) => {
-  res.send("Express + TypeScript Server");
-});
-
-app.post("/ai-test", (req: Request, res: Response) => {
+app.post("/ai-test", async (req: Request, res: Response) => {
   const input = req.body;
   console.log("input", input);
-  const aiOutput = queryAI(input);
+  const aiOutput = await queryAI(input.query);
   res.status(200).json(aiOutput);
 });
 
