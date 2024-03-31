@@ -1,9 +1,12 @@
 import routes, { Request, Response } from "express";
 import { queryAI } from "./services/ai";
 
-import sequelize from "./config/db";
-
-import { getAllUser, deleteAllUser, createUser } from "./controllers/user";
+import {
+  getAllUser,
+  deleteAllUser,
+  createUser,
+  deleteUser,
+} from "./controllers/user";
 
 const router = routes.Router();
 
@@ -20,18 +23,17 @@ router.post("/ai", async (req: Request, res: Response) => {
   res.status(200).json(output);
 });
 
-router.get("/test", async (req: Request, res: Response) => {
-  try {
-    const schemas = await sequelize.getQueryInterface().showAllSchemas();
-    console.log(schemas);
-    res.status(200).json(schemas);
-  } catch (error) {
-    console.error(error);
-  }
-});
-
+// User routes
 router.get("/user/get-all", getAllUser);
 router.get("/user/new", createUser);
-router.get("/user/del-all", deleteAllUser)
+router.delete("/user/del-all", deleteAllUser);
+router.delete("/user/del/:userId", deleteUser);
+
+// Note routes
+// router.get("/notes", getAllNotes);
+// router.post("/notes", createNote);
+// router.put("/notes", updateNotesOrder);
+// router.put("/notes/:noteId", updateNoteById);
+// router.delete("/notes/:noteId", deleteNoteById);
 
 export default router;
