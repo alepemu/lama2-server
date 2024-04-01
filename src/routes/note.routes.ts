@@ -1,4 +1,5 @@
 import { Router } from "express";
+import auth from "../middlewares/auth";
 import {
   getAllNotes,
   getAllNotesByUserId,
@@ -8,6 +9,9 @@ import {
 } from "../controllers/note.controllers";
 
 const noteRouter = Router();
+
+// Auth middleware
+noteRouter.use(auth);
 
 noteRouter.get("/", getAllNotes);
 noteRouter.get("/:userId", getAllNotesByUserId);

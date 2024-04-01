@@ -8,6 +8,10 @@ import {
 
 const userRouter = Router();
 
+/**
+ * Get all users
+ * @route GET /user/get-all
+ */
 userRouter.get("/get-all", getAllUser);
 userRouter.get("/new", createUser);
 userRouter.delete("/del-all", deleteAllUser);
