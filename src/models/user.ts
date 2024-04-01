@@ -1,11 +1,28 @@
 import sequelize from "../config/db";
-import Sequelize, { DataTypes } from "sequelize";
+import {
+  Model,
+  DataTypes,
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+} from "sequelize";
 
-const User = sequelize.define("User", {
+interface UserModel
+  extends Model<
+    InferAttributes<UserModel>,
+    InferCreationAttributes<UserModel>
+  > {
+  id: string;
+  username: string;
+  email: CreationOptional<string>;
+  password: CreationOptional<string>;
+}
+
+const User = sequelize.define<UserModel>("User", {
   id: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
   },
   username: {
     type: DataTypes.STRING,

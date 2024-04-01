@@ -1,11 +1,32 @@
 import sequelize from "../config/db";
-import Sequelize, { DataTypes } from "sequelize";
+import {
+  Model,
+  DataTypes,
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+} from "sequelize";
 
-const Note = sequelize.define("Note", {
+interface NoteModel
+  extends Model<
+    InferAttributes<NoteModel>,
+    InferCreationAttributes<NoteModel>
+  > {
+  id: string;
+  typeId: number;
+  order: number;
+  title: string;
+  text: CreationOptional<string>;
+  list: CreationOptional<string[]>;
+  theme: string;
+  userId: string;
+}
+
+const Note = sequelize.define<NoteModel>("Note", {
   id: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
   },
   typeId: {
     type: DataTypes.INTEGER,
@@ -33,7 +54,7 @@ const Note = sequelize.define("Note", {
     allowNull: false,
   },
   userId: {
-    type: Sequelize.UUID,
+    type: DataTypes.UUID,
     allowNull: false,
   },
 });
