@@ -2,22 +2,65 @@ import { Router } from "express";
 import auth from "../middlewares/auth";
 import {
   getAllNotes,
-  getAllNotesByUserId,
+  deleteAllNotes,
+  getNotesByUserId,
+  updateNotesOrder,
   createNote,
   updateNoteById,
   deleteNoteById,
-} from "../controllers/note.controllers";
+} from "../controllers/note.controller";
 
 const noteRouter = Router();
 
-// Auth middleware
+/**
+ * Get all notes
+ * @route GET /notes/get-all
+ */
+noteRouter.get("/get-all", getAllNotes);
+
+/**
+ * Delete all notes
+ * @route DELETE /notes/del-all
+ */
+noteRouter.delete("/del-all", deleteAllNotes);
+
+// In order to deal with notes from an user, require its authentication
+// and add userId to request object. Then remove the userId param in the requests below
 noteRouter.use(auth);
 
-noteRouter.get("/", getAllNotes);
-noteRouter.get("/:userId", getAllNotesByUserId);
-noteRouter.get("/new", createNote);
-// noteRouter.put("/", updateNotesOrder);
+/**
+ * Get all notes from an user
+ * @route GET /notes/:userId
+ * @param {string} userId
+ */
+noteRouter.get("/all/:userId", getNotesByUserId);
+
+/**
+ * Update all notes order
+ * @route PUT /notes/:userId
+ * @param {string} userId
+ * @body {order: []}
+ */
+noteRouter.put("/all/:userId", updateNotesOrder);
+
+/**
+ * Create new note
+ * @route POST /notes/new
+ * @body {typeId, title, text?, list?, userId}
+ */
+noteRouter.post("/new", createNote);
+
+/**
+ * Update note
+ * @route PUT /notes/:noteId
+ * @body {title?, text?, list?, theme?}
+ */
 noteRouter.put("/:noteId", updateNoteById);
+
+/**
+ * Delete note
+ * @route DELETE /notes/:noteId
+ */
 noteRouter.delete("/:noteId", deleteNoteById);
 
 export default noteRouter;

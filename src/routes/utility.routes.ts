@@ -1,13 +1,17 @@
 import { Router, Request, Response } from "express";
 import { queryAI } from "../services/ai";
 
-const bonusRouter = Router();
+const utilityRouter = Router();
 
-bonusRouter.get("/health", (_, res: Response) => {
+/**
+ * Checks if the server is up
+ * @route GET /health
+ */
+utilityRouter.get("/health", (_, res: Response) => {
   res.send("Hello World!");
 });
 
-bonusRouter.post("/ai", async (req: Request, res: Response) => {
+utilityRouter.post("/ai", async (req: Request, res: Response) => {
   console.log(req.body);
   const { input, typeId } = req.body;
   const output = await queryAI(input, typeId);
@@ -16,4 +20,4 @@ bonusRouter.post("/ai", async (req: Request, res: Response) => {
   res.status(200).json(output);
 });
 
-export default bonusRouter;
+export default utilityRouter;

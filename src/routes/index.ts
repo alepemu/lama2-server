@@ -1,5 +1,6 @@
-import bonusRouter from "./bonus.routes";
+import utilityRouter from "./utility.routes";
+import authRouter from "./auth.routes";
 import userRouter from "./user.routes";
 import noteRouter from "./note.routes";
 
-export { bonusRouter, userRouter, noteRouter };
+export { utilityRouter, authRouter, userRouter, noteRouter };

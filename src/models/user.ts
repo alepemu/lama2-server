@@ -12,7 +12,7 @@ interface UserModel
     InferAttributes<UserModel>,
     InferCreationAttributes<UserModel>
   > {
-  id: string;
+  id: CreationOptional<string>;
   username: string;
   email: CreationOptional<string>;
   password: CreationOptional<string>;

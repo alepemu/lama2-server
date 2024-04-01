@@ -22,9 +22,6 @@ const deleteAllUser = async (_: Request, res: Response, next: NextFunction) => {
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // const userData = {
-    //   username: `User ${Math.floor(Math.random() * 1000)}`,
-    // };
     const userData = req.body;
     const user = await User.create(userData);
     const plainUser = user.get({ plain: true });

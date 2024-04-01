@@ -1,9 +1,10 @@
 import routes from "express";
-import { bonusRouter, userRouter, noteRouter } from "./routes";
+import { utilityRouter, authRouter, userRouter, noteRouter } from "./routes";
 
 const router = routes.Router();
 
-router.use("/", bonusRouter);
+router.use("/", utilityRouter);
+router.use("/auth", authRouter);
 router.use("/user", userRouter);
 router.use("/notes", noteRouter);
 

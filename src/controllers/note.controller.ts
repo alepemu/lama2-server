@@ -11,7 +11,20 @@ const getAllNotes = async (_: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getAllNotesByUserId = async (
+const deleteAllNotes = async (
+  _: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await Note.destroy({ where: {} });
+    res.status(200).json({ message: "All notes deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getNotesByUserId = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -26,6 +39,38 @@ const getAllNotesByUserId = async (
   }
 };
 
+// TO DO
+const updateNotesOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { userId } = req.params;
+    const { order } = req.body;
+    // const notes = await Note.findAll({ where: { userId } });
+    // notes.forEach(async (note) => {
+    //   const { id } = note.get({ plain: true });
+    //   const newOrder = order.indexOf(id);
+    //   await Note.update({ order: newOrder }, { where: { id } });
+    // });
+    // res.status(200).json({ message: "Notes order updated" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const createNote = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const noteData = req.body;
+    const note = await Note.create(noteData);
+    const plainNote = note.get({ plain: true });
+    res.status(200).json(plainNote);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const updateNoteById = async (
   req: Request,
   res: Response,
@@ -33,9 +78,7 @@ const updateNoteById = async (
 ) => {
   try {
     const { noteId } = req.params;
-    const newNoteData = {
-      text: "text here updated",
-    };
+    const newNoteData = req.body;
     await Note.update({ ...newNoteData }, { where: { id: noteId } });
     res.status(200).json({ message: "Note updated" });
   } catch (error) {
@@ -57,27 +100,12 @@ const deleteNoteById = async (
   }
 };
 
-const createNote = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const noteData = {
-      typeId: 0,
-      order: 0,
-      title: "New Note B",
-      text: "text here",
-      userId: "b8b3b659-bfc0-4c96-a870-08a6f33d3f2e",
-    };
-    const note = await Note.create(noteData);
-    const plainNote = note.get({ plain: true });
-    res.status(200).json(plainNote);
-  } catch (error) {
-    next(error);
-  }
-};
-
 export {
   getAllNotes,
-  getAllNotesByUserId,
+  deleteAllNotes,
+  getNotesByUserId,
+  updateNotesOrder,
+  createNote,
   updateNoteById,
   deleteNoteById,
-  createNote,
 };

@@ -12,13 +12,13 @@ interface NoteModel
     InferAttributes<NoteModel>,
     InferCreationAttributes<NoteModel>
   > {
-  id: string;
+  id: CreationOptional<string>;
   typeId: number;
-  order: number;
+  order: CreationOptional<number>;
   title: string;
   text: CreationOptional<string>;
   list: CreationOptional<string[]>;
-  theme: string;
+  theme: CreationOptional<string>;
   userId: string;
 }
 
@@ -34,6 +34,7 @@ const Note = sequelize.define<NoteModel>("Note", {
   },
   order: {
     type: DataTypes.INTEGER,
+    defaultValue: 0,
     allowNull: false,
   },
   title: {
