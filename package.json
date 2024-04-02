@@ -25,7 +25,8 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.9.3",
     "openai": "^4.28.4",
-    "sequelize": "^6.37.2"
+    "sequelize": "^6.37.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

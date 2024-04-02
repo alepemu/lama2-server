@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 import constants from "../constants";
 
-async function auth(req: Request, res: Response, next: NextFunction) {
+export function authenticate(req: Request, res: Response, next: NextFunction) {
   try {
     const authorization = req.headers["authorization"];
     console.log(">>> auth", authorization);
@@ -20,5 +20,3 @@ async function auth(req: Request, res: Response, next: NextFunction) {
     res.status(401).json({ message: "Unauthorized" });
   }
 }
-
-export default auth;

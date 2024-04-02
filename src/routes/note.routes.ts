@@ -1,5 +1,7 @@
 import { Router } from "express";
-import auth from "../middlewares/auth";
+import { authenticate } from "../middlewares/authenticate";
+import { validate } from "../middlewares/validation";
+import { notesOrder, notePost, notePut } from "../utils/data-validation";
 import {
   getAllNotes,
   deleteAllNotes,
@@ -25,36 +27,36 @@ noteRouter.get("/get-all", getAllNotes);
 noteRouter.delete("/del-all", deleteAllNotes);
 
 // Authentication middleware add req.userId
-noteRouter.use(auth);
+noteRouter.use(authenticate);
 
 /**
  * Get all notes from an user
- * @route GET /notes/:userId
+ * @route GET /notes/:userId ***
  * @param {string} userId
  */
 noteRouter.get("/all/:userId", getNotesByUserId);
 
 /**
  * Update all notes order
- * @route PUT /notes/:userId
+ * @route PUT /notes/:userId ***
  * @param {string} userId
  * @body {order: []}
  */
-noteRouter.put("/all/:userId", updateNotesOrder);
+noteRouter.put("/all/:userId", validate(notesOrder), updateNotesOrder);
 
 /**
  * Create new note
  * @route POST /notes/new
  * @body {typeId, title, text?, list?, userId}
  */
-noteRouter.post("/new", createNote);
+noteRouter.post("/new", validate(notePost), createNote);
 
 /**
  * Update note
  * @route PUT /notes/:noteId
  * @body {title?, text?, list?, theme?}
  */
-noteRouter.put("/:noteId", updateNoteById);
+noteRouter.put("/:noteId", validate(notePut), updateNoteById);
 
 /**
  * Delete note

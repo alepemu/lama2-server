@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { validate } from "../middlewares/validation";
+import { userDelete } from "../utils/data-validation";
 import {
   getAllUser,
   deleteAllUser,
@@ -24,6 +26,6 @@ userRouter.delete("/del-all", deleteAllUser);
  * @route DELETE /user/:userId
  * @param {string} userId
  */
-userRouter.delete("/:userId", deleteUser);
+userRouter.delete("/:userId", validate(userDelete), deleteUser);
 
 export default userRouter;
