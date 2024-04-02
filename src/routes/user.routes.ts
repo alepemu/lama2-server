@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   getAllUser,
   deleteAllUser,
-  createUser,
   deleteUser,
 } from "../controllers/user.controller";
 
@@ -19,13 +18,6 @@ userRouter.get("/get-all", getAllUser);
  * @route DELETE /user/del-all
  */
 userRouter.delete("/del-all", deleteAllUser);
-
-/**
- * Create new user
- * @route POST /user/new
- * @body {username, email?, password?}
- */
-userRouter.post("/new", createUser);
 
 /**
  * Delete user by id

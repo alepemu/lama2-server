@@ -20,17 +20,6 @@ const deleteAllUser = async (_: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const createUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userData = req.body;
-    const user = await User.create(userData);
-    const plainUser = user.get({ plain: true });
-    res.status(200).json(plainUser);
-  } catch (error) {
-    next(error);
-  }
-};
-
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.params;
@@ -41,4 +30,4 @@ const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { getAllUser, deleteAllUser, createUser, deleteUser };
+export { getAllUser, deleteAllUser, deleteUser };
