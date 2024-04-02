@@ -1,5 +1,6 @@
 import "./config/env";
 import "./config/db";
+import "./config/express";
 import "./models";
 
 import constants from "./constants";

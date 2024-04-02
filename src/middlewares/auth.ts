@@ -3,10 +3,6 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 
 import constants from "../constants";
 
-interface RequestWithUserId extends Request {
-  userId: string;
-}
-
 async function auth(req: Request, res: Response, next: NextFunction) {
   try {
     const authorization = req.headers["authorization"];
@@ -17,7 +13,7 @@ async function auth(req: Request, res: Response, next: NextFunction) {
         constants.jsonWebToken.secret
       ) as JwtPayload;
       console.log(">>>", decoded);
-      // req.userId = decoded.userId;
+      req.userId = decoded.userId;
     }
     next();
   } catch (error) {
