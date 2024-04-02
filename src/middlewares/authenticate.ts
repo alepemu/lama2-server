@@ -17,6 +17,7 @@ export function authenticate(req: Request, res: Response, next: NextFunction) {
     }
     next();
   } catch (error) {
+    console.error(error);
     res.status(401).json({ message: "Unauthorized" });
   }
 }

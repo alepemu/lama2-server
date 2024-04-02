@@ -5,8 +5,8 @@ import { notesOrder, notePost, notePut } from "../utils/data-validation";
 import {
   getAllNotes,
   deleteAllNotes,
-  getNotesByUserId,
-  updateNotesOrder,
+  getNotes,
+  updateNotes,
   createNote,
   updateNoteById,
   deleteNoteById,
@@ -30,19 +30,17 @@ noteRouter.delete("/del-all", deleteAllNotes);
 noteRouter.use(authenticate);
 
 /**
- * Get all notes from an user
- * @route GET /notes/:userId ***
- * @param {string} userId
+ * Get user notes
+ * @route GET /notes
  */
-noteRouter.get("/all/:userId", getNotesByUserId);
+noteRouter.get("/", getNotes);
 
 /**
- * Update all notes order
- * @route PUT /notes/:userId ***
- * @param {string} userId
+ * Update user notes order
+ * @route PUT /notes
  * @body {order: []}
  */
-noteRouter.put("/all/:userId", validate(notesOrder), updateNotesOrder);
+noteRouter.put("/", validate(notesOrder), updateNotes);
 
 /**
  * Create new note

@@ -24,13 +24,9 @@ const deleteAllNotes = async (
   }
 };
 
-const getNotesByUserId = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const getNotes = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { userId } = req.params;
+    const userId = req.userId;
     const notes = await Note.findAll({ where: { userId } });
     const plainNotes = notes.map((note) => note.get({ plain: true }));
     res.status(200).json(plainNotes);
@@ -39,13 +35,9 @@ const getNotesByUserId = async (
   }
 };
 
-const updateNotesOrder = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const updateNotes = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { userId } = req.params;
+    const userId = req.userId;
     const { order } = req.body;
     const notes = await Note.findAll({ where: { userId } });
     notes.forEach(async (note) => {
@@ -102,8 +94,8 @@ const deleteNoteById = async (
 export {
   getAllNotes,
   deleteAllNotes,
-  getNotesByUserId,
-  updateNotesOrder,
+  getNotes,
+  updateNotes,
   createNote,
   updateNoteById,
   deleteNoteById,
