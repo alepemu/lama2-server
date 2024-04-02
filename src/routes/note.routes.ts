@@ -12,6 +12,8 @@ import {
 
 const noteRouter = Router();
 
+noteRouter.use(auth);
+
 /**
  * Get all notes
  * @route GET /notes/get-all
@@ -23,10 +25,6 @@ noteRouter.get("/get-all", getAllNotes);
  * @route DELETE /notes/del-all
  */
 noteRouter.delete("/del-all", deleteAllNotes);
-
-// In order to deal with notes from an user, require its authentication
-// and add userId to request object. Then remove the userId param in the requests below
-noteRouter.use(auth);
 
 /**
  * Get all notes from an user

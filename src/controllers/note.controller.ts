@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { Note } from "../models";
-import sequelize from "../config/db";
 
 const getAllNotes = async (_: Request, res: Response, next: NextFunction) => {
   try {

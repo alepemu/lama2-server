@@ -1,6 +1,6 @@
 import "./config/env";
-// import "./config/db";
-// import "./models";
+import "./config/db";
+import "./models";
 
 import constants from "./constants";
 
@@ -25,7 +25,5 @@ app.use(router);
 app.use(errorHandler);
 
 app.listen(constants.port, () => {
-  console.log(
-    `[server] Server is running at http://localhost:${constants.port}`
-  );
+  console.log(`[server] Server is running on port ${constants.port}`);
 });
