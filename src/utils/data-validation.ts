@@ -17,13 +17,13 @@ export const authSignIn = z.object({
 
 export const userDelete = z.object({
   params: z.object({
-    userId: z.string(),
+    userId: z.string().uuid(),
   }),
 });
 
 export const notesOrder = z.object({
   body: z.object({
-    order: z.array(z.string()),
+    order: z.array(z.string().uuid()),
   }),
 });
 
@@ -33,13 +33,13 @@ export const notePost = z.object({
     title: z.string(),
     text: z.string().optional(),
     list: z.array(z.string()).optional(),
-    userId: z.string(),
+    userId: z.string().uuid(),
   }),
 });
 
 export const notePut = z.object({
   params: z.object({
-    noteId: z.string(),
+    noteId: z.string().uuid(),
   }),
   body: z.object({
     title: z.string().optional(),
