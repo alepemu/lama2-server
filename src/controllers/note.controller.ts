@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Note } from "../models";
+import sequelize from "../config/db";
 
 const getAllNotes = async (_: Request, res: Response, next: NextFunction) => {
   try {
@@ -39,7 +40,6 @@ const getNotesByUserId = async (
   }
 };
 
-// TO DO
 const updateNotesOrder = async (
   req: Request,
   res: Response,
@@ -48,13 +48,13 @@ const updateNotesOrder = async (
   try {
     const { userId } = req.params;
     const { order } = req.body;
-    // const notes = await Note.findAll({ where: { userId } });
-    // notes.forEach(async (note) => {
-    //   const { id } = note.get({ plain: true });
-    //   const newOrder = order.indexOf(id);
-    //   await Note.update({ order: newOrder }, { where: { id } });
-    // });
-    // res.status(200).json({ message: "Notes order updated" });
+    const notes = await Note.findAll({ where: { userId } });
+    notes.forEach(async (note) => {
+      const { id } = note.get({ plain: true });
+      const newOrder = order.indexOf(id);
+      await Note.update({ order: newOrder }, { where: { id } });
+    });
+    res.status(200).json({ message: "Notes order updated" });
   } catch (error) {
     next(error);
   }
