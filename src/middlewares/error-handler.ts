@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from "express";
 
-export const errorHandler: ErrorRequestHandler = (err, _, res) => {
+export const errorHandler: ErrorRequestHandler = (err, req, res) => {
   console.error("[error]", err);
   const errorStatus = err.statusCode || 500;
   const errorMessage = err.message || "Something went wrong";

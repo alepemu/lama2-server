@@ -27,7 +27,7 @@ noteRouter.get("/get-all", getAllNotes);
 noteRouter.delete("/del-all", deleteAllNotes);
 
 // Authentication middleware add req.userId
-noteRouter.use(authenticate);
+// noteRouter.use(authenticate);
 
 /**
  * Get user notes

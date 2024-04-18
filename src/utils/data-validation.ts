@@ -33,7 +33,7 @@ export const notePost = z.object({
     title: z.string(),
     text: z.string().optional(),
     list: z.array(z.string()).optional(),
-    userId: z.string().uuid(),
+    // userId: z.string().uuid(),
   }),
 });
 

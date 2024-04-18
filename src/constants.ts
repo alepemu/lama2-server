@@ -5,9 +5,9 @@ const constants = {
     secret: process.env.JWT_SECRET ?? "secret",
   },
   database: {
-    name: process.env.MYSQL_DATABASE ?? "",
-    user: process.env.MYSQL_USER ?? "",
-    password: process.env.MYSQL_PASSWORD,
+    name: process.env.MYSQL_DATABASE ?? "test",
+    user: process.env.MYSQL_USER ?? "root",
+    password: process.env.MYSQL_PASSWORD ?? "admin",
     host: process.env.MYSQL_HOST ?? "localhost",
   },
   openAI: {

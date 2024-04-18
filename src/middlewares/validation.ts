@@ -11,6 +11,7 @@ export function validate(schema: ZodTypeAny) {
         const errorMessages = error.errors.map((issue: ZodIssue) => ({
           message: `${issue.path.join(".")} is ${issue.message}`,
         }));
+        console.log(errorMessages);
         res.status(400).json({ error: "Invalid data", details: errorMessages });
       } else {
         res.status(500).json({ error: "Internal Server Error" });

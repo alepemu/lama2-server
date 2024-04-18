@@ -34,7 +34,7 @@ const Note = sequelize.define<NoteModel>("Note", {
   },
   order: {
     type: DataTypes.INTEGER,
-    defaultValue: 0,
+    defaultValue: -1,
     allowNull: false,
   },
   title: {
