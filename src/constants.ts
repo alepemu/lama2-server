@@ -7,11 +7,14 @@ const constants = {
   database: {
     name: process.env.MYSQL_DATABASE ?? "test",
     user: process.env.MYSQL_USER ?? "root",
-    password: process.env.MYSQL_PASSWORD ?? "admin",
+    password: process.env.MYSQL_PASSWORD ?? "",
     host: process.env.MYSQL_HOST ?? "localhost",
   },
   openAI: {
     apiKey: process.env.OPENAI_API_KEY,
+  },
+  admin: {
+    userId: "e3ff8e5d-9cdf-4bec-85f2-702fb1cd502b",
   },
 };
 

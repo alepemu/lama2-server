@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { Op } from "sequelize";
+
+import constants from "../constants";
 import { Note } from "../models";
 
 const getAllNotes = async (_: Request, res: Response, next: NextFunction) => {
@@ -8,11 +10,8 @@ const getAllNotes = async (_: Request, res: Response, next: NextFunction) => {
       order: [["order", "ASC"]],
       attributes: ["id", "typeId", "order", "title", "text", "list", "theme"],
     });
-    // Manually delayed response
-    setTimeout(() => {
-      res.status(200).json(notes);
-    }, 1000);
-  } catch (error) {
+    res.status(200).json(notes);
+  } catch (error: any) {
     next(error);
   }
 };
@@ -25,7 +24,7 @@ const deleteAllNotes = async (
   try {
     await Note.destroy({ where: {} });
     res.status(200).json({ message: "All notes deleted" });
-  } catch (error) {
+  } catch (error: any) {
     next(error);
   }
 };
@@ -33,37 +32,16 @@ const deleteAllNotes = async (
 const getNotes = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // const userId = req.userId;
-    const userId = "d64028b4-5034-4eeb-9ea5-ea4906567535";
+    const userId = constants.admin.userId;
     const notes = await Note.findAll({
       where: { userId },
       order: [["order", "ASC"]],
       attributes: ["id", "typeId", "order", "title", "text", "list", "theme"],
     });
-    // Manually delayed response
     setTimeout(() => {
       res.status(200).json(notes);
     }, 1000);
-  } catch (error) {
-    next(error);
-  }
-};
-
-const updateNotes = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    // const userId = req.userId;
-    const { order } = req.body;
-    // const notes = await Note.findAll({ where: { userId } });
-    const notes = await Note.findAll();
-    notes.forEach(async (note) => {
-      const { id } = note.get({ plain: true });
-      const newOrder = order.indexOf(id);
-      await Note.update({ order: newOrder }, { where: { id } });
-    });
-    // Manually delayed response
-    setTimeout(() => {
-      res.status(200).json({ message: "Notes order updated" });
-    }, 1000);
-  } catch (error) {
+  } catch (error: any) {
     next(error);
   }
 };
@@ -72,23 +50,23 @@ const createNote = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const noteData = req.body;
     const note = await Note.create({
-      userId: "d64028b4-5034-4eeb-9ea5-ea4906567535",
+      userId: constants.admin.userId,
       ...noteData,
     });
-    const plainNote = note.get({ plain: true });
+    const noteId = note.get("id");
     // Update order of the other notes
     const notes = await Note.findAll({
-      where: { userId: "d64028b4-5034-4eeb-9ea5-ea4906567535" },
+      where: { userId: constants.admin.userId },
     });
     notes.forEach(async (note) => {
       const { id, order } = note.get({ plain: true });
       await Note.update({ order: order + 1 }, { where: { id } });
     });
-    // Manually delayed response
+    //
     setTimeout(() => {
-      res.status(200).json({ message: "Note created", noteId: plainNote.id });
+      res.status(200).json({ message: "Note created", noteId });
     }, 1000);
-  } catch (error) {
+  } catch (error: any) {
     next(error);
   }
 };
@@ -102,11 +80,10 @@ const updateNoteById = async (
     const { noteId } = req.params;
     const newNoteData = req.body;
     await Note.update({ ...newNoteData }, { where: { id: noteId } });
-    // Manually delayed response
     setTimeout(() => {
       res.status(200).json({ message: "Note updated" });
     }, 1000);
-  } catch (error) {
+  } catch (error: any) {
     next(error);
   }
 };
@@ -118,13 +95,10 @@ const deleteNoteById = async (
 ) => {
   try {
     const { noteId } = req.params;
-
-    // Delete note
     const note = await Note.findOne({ where: { id: noteId } });
     if (note) {
       const position = note.order;
       await Note.destroy({ where: { id: noteId } });
-
       // Update notes order (only the affected ones)
       await Note.findAll({ where: { order: { [Op.gt]: position } } }).then(
         (notes) => {
@@ -134,12 +108,31 @@ const deleteNoteById = async (
           });
         }
       );
-      // Manually delayed response
+      //
       setTimeout(() => {
         res.status(200).json({ message: "Note deleted" });
       }, 1000);
     }
-  } catch (error) {
+  } catch (error: any) {
+    next(error);
+  }
+};
+
+const updateNotes = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // const userId = req.userId;
+    const userId = constants.admin.userId;
+    const { order } = req.body;
+    const notes = await Note.findAll({ where: { userId } });
+    notes.forEach(async (note) => {
+      const { id } = note.get({ plain: true });
+      const newOrder = order.indexOf(id);
+      await Note.update({ order: newOrder }, { where: { id } });
+    });
+    setTimeout(() => {
+      res.status(200).json({ message: "Notes order updated" });
+    }, 1000);
+  } catch (error: any) {
     next(error);
   }
 };
@@ -148,8 +141,8 @@ export {
   getAllNotes,
   deleteAllNotes,
   getNotes,
-  updateNotes,
   createNote,
   updateNoteById,
   deleteNoteById,
+  updateNotes,
 };

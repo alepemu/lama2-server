@@ -19,15 +19,6 @@ export async function queryAI(input: string, typeId: number) {
     isReady = true;
   }, 15000);
 
-  // let textResponse;
-  // if (typeId === 0) textResponse = "AI note response";
-  // let listResponse;
-  // if (typeId === 1)
-  //   listResponse = [{ itemId: crypto.randomUUID(), item: "AI list response" }];
-
-  // return { text: textResponse, list: listResponse, typeId };
-  // return { text: 'whaaat', typeId: 0 }; // OK
-
   const content =
     typeId === 0
       ? `Provide a brief answer to the next query: "${input}". (25 words max)`
@@ -43,24 +34,20 @@ export async function queryAI(input: string, typeId: number) {
     model: "gpt-3.5-turbo",
   });
 
-  // console.log(">>>", completion);
-  console.log(">>", completion.choices[0].message.content);
+  // console.log(">>", completion.choices[0].message.content);
 
   if (typeId === 1 && completion.choices[0].message.content) {
     let res = JSON.parse(completion.choices[0].message.content);
-    // console.log("1>>>", res);
-
     // If res is an object, convert it to an array
     if (typeof res === "object" && !Array.isArray(res)) {
       res = Object.values(res).flat();
-      // console.log("2>>>", res);
     }
     const array = res.map((item: string) => ({
-      itemId: crypto.randomUUID(),
+      itemId: Date.now() + Math.floor(Math.random() * 1000),
       item,
     }));
-    return { list: array, typeId };
+    return { list: array };
   } else {
-    return { text: completion.choices[0].message.content, typeId };
+    return { text: completion.choices[0].message.content };
   }
 }

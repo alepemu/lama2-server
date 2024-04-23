@@ -31,8 +31,10 @@ export const notePost = z.object({
   body: z.object({
     typeId: z.number(),
     title: z.string(),
-    text: z.string().optional(),
-    list: z.array(z.string()).optional(),
+    text: z.string().nullable().optional(),
+    list: z
+      .array(z.object({ itemId: z.number(), item: z.string() }))
+      .nullable().optional(),
     // userId: z.string().uuid(),
   }),
 });
@@ -43,8 +45,10 @@ export const notePut = z.object({
   }),
   body: z.object({
     title: z.string().optional(),
-    text: z.string().optional(),
-    list: z.array(z.string()).optional(),
-    theme: z.string().optional(),
+    text: z.string().nullable().optional(),
+    list: z
+      .array(z.object({ itemId: z.number(), item: z.string() }))
+      .nullable().optional(),
+    theme: z.string(),
   }),
 });

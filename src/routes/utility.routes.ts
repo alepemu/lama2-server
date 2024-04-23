@@ -11,11 +11,17 @@ utilityRouter.get("/health", (_, res: Response) => {
   res.send("Hello World!");
 });
 
+/**
+ * Queries the AI model
+ * @route POST /ai
+ * @param {string} input.body.required - The input text
+ * @param {number} typeId.body.required - The type of query
+ * @returns {object} 200 - The response object
+ */
 utilityRouter.post("/ai", async (req: Request, res: Response) => {
-  console.log(req.body);
   const { input, typeId } = req.body;
+  console.log(">>>", input, typeId);
   const output = await queryAI(input, typeId);
-
   console.log(">>>", output);
   res.status(200).json(output);
 });
